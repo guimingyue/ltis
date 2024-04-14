@@ -1,7 +1,8 @@
 
-#Third party lib
-* (MeloTTS)[https://github.com/myshell-ai/MeloTTS]
-* (whisper)[https://github.com/openai/whisper] 
+# Third party lib 
+
+* [MeloTTS](https://github.com/myshell-ai/MeloTTS)
+* [whisper](https://github.com/openai/whisper)
     * `ffmpeg`, should be installed on the machine, use the command list below
         ```shell
         # on Ubuntu or Debian
