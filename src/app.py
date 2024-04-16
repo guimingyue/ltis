@@ -13,7 +13,20 @@ def transcribe(stream, new_chunk):
         stream = np.concatenate([stream, y])
     else:
         stream = y
-    return stream, transcriber({"sampling_rate": sr, "raw": stream})["text"]
+    text = transcriber({"sampling_rate": sr, "raw": stream})["text"]
+
+    print("text is: " + text)
+    language='EN'
+    accent='EN-US'
+
+    # CPU is sufficient for real-time inference.
+    # You can set it manually to 'cpu' or 'cuda' or 'cuda:0' or 'mps'
+    device = 'auto' # Will automatically use GPU if available
+    melo_model = TTS(language=language, device=device)
+    speaker_ids = melo_model.hps.data.spk2id
+    audio = melo_model.tts_to_file(text, speaker_ids[accent], None, speed=1.0)
+    print("convert success," + text)
+    return audio, text
 
 
 def main():
@@ -21,7 +34,7 @@ def main():
     demo = gr.Interface(
         transcribe,
         ["state", gr.Audio(sources=["microphone"], streaming=True)],
-        ["state", "text"],
+        ["state", "audio"],
         live=True,
     )
     demo.launch()
