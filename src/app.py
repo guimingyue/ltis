@@ -8,6 +8,7 @@ llm = Qwen('qwen_turbo', prompt='You are an American assistant who speak America
 sr = WhisperSr()
 tts = MeloTts()
 
+
 def transcribe(audio):
     text = sr.transcribe(audio)
     print("src text is: " + text)
