@@ -3,21 +3,19 @@ import gradio as gr
 from llm import Qwen
 from sr import WhisperSr
 from tts import MeloTts
+import collections
+from cfg import Chat
 
-llm = Qwen('qwen_turbo', prompt='You are an American assistant who speak American English.')
 sr = WhisperSr()
 tts = MeloTts()
+dict = collections.defaultdict()
+dict['user_en'] = Chat()
+dict['user_zh'] = Chat('qwen_turbo', '你是一个知识渊博的助手', 'base', 'ZH')
 
 
-def transcribe(audio):
-    text = sr.transcribe(audio)
-    print("src text is: " + text)
-    text, status = llm.call_with_messages(text)
-    print("text from llm: " + text)
-    if not status:
-        return 
-    
-    return tts.tts(text) 
+def transcribe(audio, user='user_zh'):
+    chat = dict[user]
+    return chat.transcribe(audio) 
 
 def main():
     print('starting app')
