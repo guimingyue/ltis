@@ -4,10 +4,8 @@ from llm import Qwen
 from sr import WhisperSr
 from tts import MeloTts
 import collections
-from cfg import Chat
+from chat import Chat
 
-sr = WhisperSr()
-tts = MeloTts()
 dict = collections.defaultdict()
 dict['user_en'] = Chat('english')
 dict['user_zh'] = Chat('chinese', 'qwen_turbo', '你是一个知识渊博的助手', 'base', 'ZH')

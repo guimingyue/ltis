@@ -30,6 +30,5 @@ class WhisperSr:
         sr, y = audio
         y = y.astype(np.float32)
         y /= np.max(np.abs(y))
-        trans_res = self.model({"sampling_rate": sr, "raw": y})
+        trans_res = self.model({"sampling_rate": sr, "raw": y}, generate_kwargs = {"task":"transcribe"})
         return trans_res["text"]
-        # result = transcriber(audio, language=self.language, verbose=self.verbose)
