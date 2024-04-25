@@ -12,10 +12,12 @@ lang_accent_sr_tts = {
 
 class Chat:
     def __init__(self,
+                 name,
                  llm_model_name="qwen-max",
                  llm_prompt="You are a helpful assistant.",
                  sr_model_name="base",
                  accent="EN-US"):
+        self.name = name
         lang = lang_accent_sr_tts[accent]
         self.sr = WhisperSr(sr_model_name, lang[0])
         self.tts = MeloTts(lang[1], accent)

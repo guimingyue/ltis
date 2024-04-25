@@ -9,8 +9,8 @@ from cfg import Chat
 sr = WhisperSr()
 tts = MeloTts()
 dict = collections.defaultdict()
-dict['user_en'] = Chat()
-dict['user_zh'] = Chat('qwen_turbo', '你是一个知识渊博的助手', 'base', 'ZH')
+dict['user_en'] = Chat('english')
+dict['user_zh'] = Chat('chinese', 'qwen_turbo', '你是一个知识渊博的助手', 'base', 'ZH')
 
 
 def transcribe(audio, user='user_zh'):
