@@ -1,30 +1,28 @@
-from melo.api import TTS
-import whisper
+
+import gradio as gr
+from llm import Qwen
+from sr import WhisperSr
+from tts import MeloTts
+import collections
+from chat import Chat
+
+dict = collections.defaultdict()
+dict['user_en'] = Chat('english')
+dict['user_zh'] = Chat('chinese', 'qwen_turbo', '你是一个知识渊博的助手', 'base', 'ZH')
+
+
+def transcribe(audio, user='user_zh'):
+    chat = dict[user]
+    return chat.transcribe(audio) 
 
 def main():
-    print('ready to start')
-    # Speed is adjustable
-    speed = 1.0
-
-    language='EN'
-    accent='EN-US'
-    output_path='f.wav'
-    text="What's your problem"
-
-    # CPU is sufficient for real-time inference.
-    # You can set it manually to 'cpu' or 'cuda' or 'cuda:0' or 'mps'
-    device = 'auto' # Will automatically use GPU if available
-
-    melo_model = TTS(language=language, device=device)
-    speaker_ids = melo_model.hps.data.spk2id
-    melo_model.tts_to_file(text, speaker_ids[accent], output_path, speed=speed)
-    
-    print("trans voice to text")
-    whisper_model = whisper.load_model("base")
-    text = whisper_model.transcribe(output_path)
-    print(text["text"])
-
-
+    print('starting app')
+    demo = gr.Interface(
+        transcribe,
+        gr.Audio(sources=["microphone"]),
+        "audio",
+    )
+    demo.launch()
 
 if __name__ == "__main__":
     main()
