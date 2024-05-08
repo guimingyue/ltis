@@ -13,7 +13,7 @@ dict['user_zh'] = Chat('chinese', 'qwen_turbo', '你是一个知识渊博的助�
 
 def transcribe(audio, user='user_zh'):
     chat = dict[user]
-    return chat.transcribe(audio) 
+    return chat.transcribe(audio)[0] 
 
 def main():
     print('starting app')
