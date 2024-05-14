@@ -1,4 +1,4 @@
-ltis is an AI application for 
+ltis is an AI application for Voice Chating.
 
 # Third party lib 
 
