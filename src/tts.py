@@ -12,10 +12,13 @@ class MeloTts:
         self.speed = speed
         self.accent = accent
     
-    def tts(self, text):
-        audio = self.melo_model.tts_to_file(text, self.speaker_ids[self.accent], None, self.speed)
-        audio_buf = io.BytesIO()
-        audio_buf.name = 'file.wav'
-        sf.write(audio_buf, audio, self.melo_model.hps.data.sampling_rate)
-        audio_buf.seek(0)  # Necessary for `.read()` to return all bytes
-        return audio_buf.read()
+    def tts(self, text, path=None):
+        if path is None:
+            audio = self.melo_model.tts_to_file(text, self.speaker_ids[self.accent], None, self.speed)
+            audio_buf = io.BytesIO()
+            audio_buf.name = 'file.wav'
+            sf.write(audio_buf, audio, self.melo_model.hps.data.sampling_rate)
+            audio_buf.seek(0)  # Necessary for `.read()` to return all bytes
+            return audio_buf.read()
+        else:
+            self.melo_model.tts_to_file(text, self.speaker_ids[self.accent], path, self.speed)

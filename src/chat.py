@@ -23,12 +23,12 @@ class Chat:
         self.tts = MeloTts(lang[1], accent)
         self.llm = Qwen(llm_model_name, llm_prompt)
 
-    def transcribe(self, audio):
-        text = self.sr.transcribe(audio)
-        print("src text is: " + text)
-        text, status = self.llm.call_with_messages(text)
-        print("text from llm: " + text)
+    def transcribe(self, audio, path=None):
+        src_text = self.sr.transcribe(audio)
+        print("src text is: " + src_text)
+        res_text, status = self.llm.call_with_messages(src_text)
+        print("text from llm: " + res_text)
         if not status:
             return 
         
-        return (self.tts.tts(text), text)
+        return (src_text, res_text, self.tts.tts(res_text, path))
