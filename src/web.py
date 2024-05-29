@@ -1,5 +1,5 @@
 import soundfile
-from flask import Flask, request, jsonify, send_file, Response, stream_with_context, after_this_request
+from flask import Flask, request, jsonify, send_file, Response, stream_with_context, after_this_request, render_template
 #from chat import Chat
 from pydub import AudioSegment
 import numpy as np
@@ -18,9 +18,9 @@ base_audio_file_dir = app.root_path
 #base_audio_file_dir = os.path.dirname(os.path.realpath(__file__))
 #base_audio_file_dir = '.'
 
-@app.route("/twst")
+@app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return render_template("index.html")
 
 @app.post('/api/media')
 def media():
