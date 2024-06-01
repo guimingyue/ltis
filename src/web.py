@@ -12,11 +12,11 @@ import os
 app = Flask(__name__)
 CORS(app)
 chat = Chat('english')
-#Chat('chinese', 'qwen-turbo', '你是一个知识渊博的助手', 'base', 'ZH')
+#chat = Chat('chinese', 'qwen-turbo', '你是一个知识渊博的助手', 'base', 'ZH')
 
-base_audio_file_dir = app.root_path
-#base_audio_file_dir = os.path.dirname(os.path.realpath(__file__))
-#base_audio_file_dir = '.'
+base_audio_file_dir = os.getcwd() + '/audio_files'
+os.makedirs(base_audio_file_dir, exist_ok=True)
+
 
 @app.route("/")
 def hello_world():
@@ -31,12 +31,12 @@ def media():
         data = data.reshape(-1, audio.channels)
 
     src_file = f'src_{datetime.now().strftime("%Y%m%d%H%M%S")}.wav'
-    soundfile.write(base_audio_file_dir + '/' + src_file, data, audio.frame_rate)
+    soundfile.write(f'{base_audio_file_dir}/{src_file}', data, audio.frame_rate)
     res_file = f'res_{datetime.now().strftime("%Y%m%d%H%M%S")}.wav'
 
     '''
     speech = data
-    soundfile.write(base_audio_file_dir + '/' + res_file, speech, audio.frame_rate)
+    soundfile.write(f'{base_audio_file_dir}/{res_file}', speech, audio.frame_rate)
     return jsonify({
         "src_text": 'xxxxxxx',
         "src_audio": src_file,
@@ -46,8 +46,7 @@ def media():
     })
     '''
 
-    src_text, speech, text = chat.transcribe((audio.frame_rate, data), res_file)
-    soundfile.write(res_file, speech, audio.frame_rate)
+    src_text, text = chat.transcribe((audio.frame_rate, data), f'{base_audio_file_dir}/{res_file}')
     
     return jsonify({
         "src_text": src_text,
@@ -56,7 +55,7 @@ def media():
         "text": text,
         "timestamp": int(time.time() * 1000)
     })
-
+   
 @app.route('/audio/<filename>')
 def stream_audio(filename):
     # 确保文件路径正确，并且指向音频文件存储的位置

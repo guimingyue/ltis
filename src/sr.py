@@ -19,7 +19,7 @@ class WhisperSr:
     def __init__(self, model_name="base", language="en", verbose=False) -> None:
         if model_name == "base":
             if language == "en":
-                self.model = whisper_transcriber_base_en
+                self.model = whisper_transcriber_base
             else:
                 self.model = whisper_transcriber_base
         else:

@@ -31,4 +31,5 @@ class Chat:
         if not status:
             return 
         
-        return (src_text, res_text, self.tts.tts(res_text, path))
+        self.tts.tts(res_text, path)
+        return (src_text, res_text)
