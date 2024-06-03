@@ -11,7 +11,7 @@ class Llm:
 
 class Qwen(Llm):
 
-    def __init__(self, model= "qwen-max", prompt = "You are a helpful assistant." ,
+    def __init__(self, model= "qwen-turbo", prompt = "You are a helpful assistant." ,
                  temperature=0.9, top_p=0.7, max_tokens=2048) -> None:
         print("init prompt: " + prompt)
         self.model_name = model
